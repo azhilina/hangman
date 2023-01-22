@@ -1,4 +1,5 @@
 import random
+# correct_word = 'java'
 correct_word = random.choice(['python', 'java', 'swift', 'javascript'])
 hint_word = ''
 new_hint = ''
@@ -11,7 +12,10 @@ print('')
 while(attempts > 0):
     print(hint_word)
     letter = input('Input a letter: ')
-    if(letter in correct_word):
+    check = set(hint_word)
+    if('-' not in check):
+        break
+    elif((letter in correct_word) and (letter not in check)):
         new_hint = ''
         i = 0
         while i < len(correct_word):
@@ -23,11 +27,20 @@ while(attempts > 0):
                 i = i + 1
         hint_word = new_hint
         print('')
+        if('-' not in set(hint_word)):
+            break
+    elif(letter in check):
+        print('No improvements.')
+        print('')
         attempts = attempts - 1
     else:
         print("That letter doesn't appear in the word.")
         print('')
         attempts = attempts - 1
 
-
-print('Thanks for playing!')
+if('-' not in set(hint_word)):
+    print(hint_word)
+    print("""You guessed the word!
+You survived!""")
+else:
+    print('You lost!')
